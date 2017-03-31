@@ -1,58 +1,60 @@
 var rocky = require('rocky');
 
+ var globalState = {
+	 width:0,
+	 height:0
+ };
+
 var drawBoard = function(ctx, color){
-	var width = ctx.canvas.unobstructedWidth;
-	var height = ctx.canvas.unobstructedHeight;
-	
 	ctx.fillStyle = color;
-	ctx.rockyFillRadial(width/2, height/2, 0, width/2, 0, 2*Math.PI);
+	ctx.rockyFillRadial(globalState.width/2, globalState.height/2, 0, globalState.width/2, 0, 2*Math.PI);
 };
 
 var drawMinutes = function(ctx, minutes, color){
-	var width = ctx.canvas.unobstructedWidth;
-	var height = ctx.canvas.unobstructedHeight;
 	var startingAngle = -Math.PI/2;
 	var angle = 6*minutes*2*Math.PI/360;
 	
-	console.log(angle);
 	ctx.fillStyle = color;
-	ctx.rockyFillRadial(width/2, height/2, 0, ctx.canvas.unobstructedWidth/2, startingAngle, startingAngle+angle);
+	ctx.rockyFillRadial(globalState.width/2, globalState.height/2, 0, ctx.canvas.unobstructedWidth/2, startingAngle, startingAngle+angle);
 };
 
-var drawHour = function(ctx, hour, color){
-		  // Determine the width and height of the display
-  var width = ctx.canvas.unobstructedWidth;
-  var height = ctx.canvas.unobstructedHeight;
+var drawHour = function(ctx, hour, minutes, color){
 	
-	var hourXPosition = 1/4*width;
-	var hourYPosition = height/4;
-
-  // Set the text color
-  ctx.fillStyle = 'white';
-
-  // Center align the text
-  ctx.textAlign = 'center';
-
-  // Display the time, in the middle of the screen
-  ctx.fillText(hour.toString(), hourXPosition, hourYPosition, width);
+	var hourMargin = globalState.width/30;
+	var hourText = hour.toString();
+	var textMetric = ctx.measureText(hourText);
+	var hourTextWidth = textMetric.width;
+	var hourXPosition;
+	var hourYPosition = globalState.height/4-globalState.height/7;
+	
+	if(minutes < 30){
+		hourXPosition = globalState.width/2 + hourTextWidth/2 + hourMargin;
+	} else{
+		hourXPosition = globalState.width/2 - hourMargin - hourTextWidth/2;
+	}
+	
+  ctx.fillStyle = color;
+  ctx.fillText(hour.toString(), hourXPosition, hourYPosition, globalState.width);
 };
 
 rocky.on('draw', function(event) {
-  // Get the CanvasRenderingContext2D object
   var ctx = event.context;
 	
+	globalState.width = ctx.canvas.unobstructedWidth;
+	globalState.height = ctx.canvas.unobstructedHeight;
+	
 	// STYLING
+	ctx.font = '30px bolder Bitham';
 	var boardColor = "#FF7900";
 	var minuteColor = "#5555AA";
 	var hourColor = "white";
 	
 	ctx.clearRect(0,0,ctx.canvas.clientWidth,ctx.canvas.clientHeight);
 	
-
 	drawBoard(ctx, boardColor);
 	var date = new Date();
 	drawMinutes(ctx, date.getMinutes(), minuteColor);
-	drawHour(ctx, date.getHours(), hourColor);
+	drawHour(ctx, date.getHours(), date.getMinutes(), hourColor);
 
 });
 
