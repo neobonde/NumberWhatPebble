@@ -1,0 +1,21 @@
+{
+    "author": "neobonde@gmail.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "numberwhat",
+    "pebble": {
+        "displayName": "NumberWhat",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "rocky",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "0086dc38-b473-4bce-bfbf-a59264cc3e51",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
