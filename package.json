@@ -12,10 +12,16 @@
             "media": []
         },
         "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+        ],
         "uuid": "0086dc38-b473-4bce-bfbf-a59264cc3e51",
         "watchapp": {
-            "watchface": false
+            "watchface": true
         }
     },
-    "version": "1.0.0"
+    "version": "1.1.0"
 }

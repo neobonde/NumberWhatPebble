@@ -34,6 +34,7 @@ var drawHour = function(ctx, hour, minutes, color){
 	}
 	
   ctx.fillStyle = color;
+	ctx.textAlign = 'center';
   ctx.fillText(hour.toString(), hourXPosition, hourYPosition, globalState.width);
 };
 
@@ -59,7 +60,5 @@ rocky.on('draw', function(event) {
 });
 
 rocky.on('minutechange', function(event) {
-  console.log("Another minute with your Pebble!");
-	
   rocky.requestDraw();
 });
