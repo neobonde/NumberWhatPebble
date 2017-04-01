@@ -18,7 +18,7 @@ var drawMinutes = function(ctx, minutes, color){
 	ctx.rockyFillRadial(globalState.width/2, globalState.height/2, 0, ctx.canvas.unobstructedWidth/2, startingAngle, startingAngle+angle);
 };
 
-var drawHour = function(ctx, hour, minutes, color){
+var drawHour = function(ctx, hour, minutes, color1, color2){
 	
 	var hourMargin = globalState.width/30;
 	var hourText = hour.toString();
@@ -27,10 +27,16 @@ var drawHour = function(ctx, hour, minutes, color){
 	var hourXPosition;
 	var hourYPosition = globalState.height/4-globalState.height/7;
 	
+	console.log(hourTextWidth);
+	
 	if(minutes < 30){
-		hourXPosition = globalState.width/2 + hourTextWidth/2 + hourMargin;
+		hourXPosition = globalState.width/2  + hourMargin;
+		ctx.textAlign = 'left'
+		ctx.fillStyle = color1;
 	} else{
-		hourXPosition = globalState.width/2 - hourMargin - hourTextWidth/2;
+		hourXPosition = globalState.width/2 - hourMargin;
+		ctx.textAlign = 'right'
+		ctx.fillStyle = color2;
 		if(hour == 12){
 			hour = 1;
 		} else {
@@ -38,8 +44,6 @@ var drawHour = function(ctx, hour, minutes, color){
 		}
 	}
 	
-  ctx.fillStyle = color;
-	ctx.textAlign = 'center';
   ctx.fillText(hour.toString(), hourXPosition, hourYPosition, globalState.width);
 };
 
@@ -51,16 +55,18 @@ rocky.on('draw', function(event) {
 	
 	// STYLING
 	ctx.font = '30px bolder Bitham';
-	var boardColor = "#FF7900";
-	var minuteColor = "#5555AA";
-	var hourColor = "white";
+	var boardColor = "#4180D0";
+	var minuteColor = "#95F6F2";
+	var hourColor1 = "black";
+	var hourColor2 = "white";
+	
 	
 	ctx.clearRect(0,0,ctx.canvas.clientWidth,ctx.canvas.clientHeight);
 	
 	drawBoard(ctx, boardColor);
 	var date = new Date();
 	drawMinutes(ctx, date.getMinutes(), minuteColor);
-	drawHour(ctx, date.getHours(), date.getMinutes(), hourColor);
+	drawHour(ctx, date.getHours(), date.getMinutes(), hourColor1, hourColor2);
 
 });
 
