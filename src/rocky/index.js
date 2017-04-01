@@ -31,6 +31,11 @@ var drawHour = function(ctx, hour, minutes, color){
 		hourXPosition = globalState.width/2 + hourTextWidth/2 + hourMargin;
 	} else{
 		hourXPosition = globalState.width/2 - hourMargin - hourTextWidth/2;
+		if(hour == 12){
+			hour = 1;
+		} else {
+			hour = hour + 1;
+		}
 	}
 	
   ctx.fillStyle = color;
